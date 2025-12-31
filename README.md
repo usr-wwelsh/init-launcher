@@ -6,8 +6,8 @@ A minimal, stripped-metal style Android launcher with system monitoring capabili
 
 - **System Monitor**: Real-time display of RAM, storage, and network stats with live graphs
 - **Neofetch-style Header**: ASCII art Android logo with device info
-- **Pinned Apps Grid**: Quick access to 6 favorite apps
-- **App Drawer**: Full list of installed applications with search
+- **Pinned Apps Grid**: Quick access to 9 favorite apps (3x3 grid)
+- **App Drawer**: Full list of installed applications with search and sorting (Recent/A-Z)
 - **Bare Metal Aesthetic**: Black background, neon green monospace text, 1dp borders
 - **Network Graph**: Real-time network speed visualization
 - **Lightweight**: Minimal resource footprint, perfect for older devices
@@ -39,9 +39,12 @@ Check the [Releases](https://github.com/usr-wwelsh/init-launcher/releases) page 
 ## Usage
 
 - **Launch Apps**: Tap on any pinned app name
-- **Replace Pinned App**: Long-press on a pinned app slot to select a new app
-- **View All Apps**: Tap the `[ ALL APPS ]` button to open the app drawer
-- **Set as Default Launcher**: Android will prompt you to choose Init Launcher as your home app on first home button press
+- **Reorder Pinned Apps**: Long-press and drag a pinned app to reorder
+- **Replace Pinned App**: Double-tap on a pinned app slot to select a new app
+- **View All Apps**: Tap the cyclone emoji button `[ 🌀 ]` to open the app drawer
+- **Search Apps**: Use the search bar in the app drawer to filter applications
+- **Sort Apps**: Tap "Recent" or "A-Z" in the top-right of the app drawer to toggle between recently used and alphabetical sorting
+- **Set as Default Launcher**: Long-press the cyclone emoji button to access launcher settings, or Android will prompt you on first home button press
 
 ## Permissions
 
@@ -94,7 +97,7 @@ Edit `app/src/main/res/values/colors.xml` to change the color scheme:
 
 ### Pinned App Count
 
-Modify the grid size in `activity_main.xml` to change the number of pinned apps (default: 6).
+Modify the grid size in `activity_main.xml` to change the number of pinned apps (default: 9 in a 3x3 grid).
 
 ## Roadmap
 
