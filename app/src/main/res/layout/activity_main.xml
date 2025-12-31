@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:padding="0dp">
+
+    <!-- Status Bar with Notch Gap -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:paddingBottom="8dp">
+
+        <!-- Left Side: Uptime + Battery -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingStart="8dp">
+
+            <!-- Uptime Box -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/border_box"
+                android:padding="6dp"
+                android:layout_marginEnd="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Uptime"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="9sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/uptimeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0h 0m"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
+                    android:paddingTop="2dp" />
+            </LinearLayout>
+
+            <!-- Battery Box -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/border_box"
+                android:padding="6dp"
+                android:layout_marginStart="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Battery"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="9sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/batteryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
+                    android:paddingTop="2dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Center Gap for Camera Notch -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="0.5" />
+
+        <!-- Right Side: Cell + WiFi -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingEnd="0dp">
+
+            <!-- Cell Signal Box -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/border_box"
+                android:padding="6dp"
+                android:layout_marginEnd="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cell"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="9sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/signalText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
+                    android:paddingTop="2dp" />
+            </LinearLayout>
+
+            <!-- WiFi Box -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/border_box"
+                android:padding="6dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WiFi"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="9sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/wifiText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
+                    android:paddingTop="2dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Current Time Display -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border_box"
+        android:padding="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/currentTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"
+            android:textColor="@color/neon_green"
+            android:textSize="32sp"
+            android:fontFamily="monospace"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Neofetch Section - Aligned with status boxes -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp">
+
+            <!-- Neofetch Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/border_box"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:layout_marginBottom="6dp">
+
+                <!-- ASCII Art -->
+                <TextView
+                    android:id="@+id/asciiArt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/neon_green"
+                    android:textSize="8sp"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="0dp"
+                    android:lineSpacingMultiplier="0.9"
+                    android:maxLines="20"
+                    android:singleLine="false" />
+
+                <!-- System Info -->
+                <TextView
+                    android:id="@+id/systemInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="0dp"
+                    android:lineSpacingMultiplier="1.0"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="4dp" />
+            </LinearLayout>
+
+            <!-- Stats Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Network Stats -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_box"
+                    android:padding="6dp"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Network"
+                        android:textColor="@color/neon_cyan"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/networkStats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:paddingTop="4dp" />
+
+                    <!-- Network Graph -->
+                    <com.initlauncher.NetworkGraphView
+                        android:id="@+id/networkGraph"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+
+                <!-- Memory & Disk Stats -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_box"
+                    android:padding="6dp"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Memory &amp; Disks"
+                        android:textColor="@color/neon_cyan"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/memoryStats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:paddingTop="4dp" />
+
+                    <!-- RAM Progress Bar -->
+                    <ProgressBar
+                        android:id="@+id/ramProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="4dp"
+                        android:progressDrawable="@drawable/progress_bar_square"
+                        android:max="100" />
+
+                    <TextView
+                        android:id="@+id/diskStats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/purple"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:paddingTop="6dp" />
+
+                    <!-- Disk Progress Bar -->
+                    <ProgressBar
+                        android:id="@+id/diskProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="4dp"
+                        android:progressDrawable="@drawable/progress_bar_square_purple"
+                        android:max="100" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Pinned Apps Grid -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/border_box"
+                android:padding="6dp"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pinned Apps"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pinnedAppsGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+
+            <!-- All Apps Button -->
+            <TextView
+                android:id="@+id/allAppsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/all_apps_button"
+                android:textColor="@color/neon_green"
+                android:textSize="24sp"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:padding="0dp"
+                android:background="@drawable/border_box"
+                android:clickable="true"
+                android:focusable="true" />
+    </LinearLayout>
+</LinearLayout>

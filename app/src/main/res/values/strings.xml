@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Init Launcher</string>
+    <string name="all_apps_button">[ 🌀 ]</string>
+    <string name="no_apps">No apps found</string>
+    <string name="select_app">Select an app</string>
+</resources>
