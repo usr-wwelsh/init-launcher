@@ -98,12 +98,8 @@ Modify the grid size in `activity_main.xml` to change the number of pinned apps 
 
 ## Roadmap
 
-- [ ] Search functionality in app drawer
 - [ ] Custom icon packs support
 - [ ] Widget support
-- [ ] Gesture controls
-- [ ] Battery monitoring
-- [ ] CPU temperature display
 - [ ] Theme presets (amber, blue, red terminals)
 
 ## Contributing
