@@ -14,7 +14,7 @@ A minimal, stripped-metal style Android launcher with system monitoring capabili
 
 ## Screenshots
 
-![Init Launcher Demo](demo.png)
+<img src="demo.png" width="400" alt="Init Launcher Demo">
 
 ## Installation
 
