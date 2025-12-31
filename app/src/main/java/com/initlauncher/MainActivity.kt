@@ -206,22 +206,93 @@ class MainActivity : Activity() {
         val model = Build.MODEL
         val osVersion = "Android ${Build.VERSION.RELEASE}"
         val kernel = System.getProperty("os.version") ?: "Unknown"
-        val resolution = getScreenResolution()
+        val cpuInfo = getCpuInfo()
+        val gpuInfo = getGpuInfo()
+        val uptimeStr = getUptimeString()
+        val memoryInfo = getMemoryInfo()
+        val packageCount = getPackageCount()
 
         val info = """
             |OS: $osVersion
             |Host: $model
             |Kernel: $kernel
-            |Resolution: $resolution
+            |Uptime: $uptimeStr
+            |CPU: $cpuInfo
+            |GPU: $gpuInfo
+            |Memory: $memoryInfo
+            |Packages: $packageCount
         """.trimMargin()
 
         systemInfo.text = info
     }
 
-    private fun getScreenResolution(): String {
-        val metrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(metrics)
-        return "${metrics.widthPixels}x${metrics.heightPixels}"
+    private fun getCpuInfo(): String {
+        return try {
+            val cpuAbi = Build.SUPPORTED_ABIS.firstOrNull() ?: "Unknown"
+            val cores = Runtime.getRuntime().availableProcessors()
+
+            // Try to read CPU hardware info
+            val cpuHardware = try {
+                java.io.File("/proc/cpuinfo").bufferedReader().use { reader ->
+                    reader.lineSequence()
+                        .find { it.startsWith("Hardware") }
+                        ?.substringAfter(":")
+                        ?.trim() ?: Build.HARDWARE
+                }
+            } catch (e: Exception) {
+                Build.HARDWARE
+            }
+
+            "$cpuHardware ($cores)"
+        } catch (e: Exception) {
+            "Unknown"
+        }
+    }
+
+    private fun getGpuInfo(): String {
+        return try {
+            // Try to get GPU info from system properties or build info
+            val renderer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                Build.SOC_MODEL ?: "Unknown"
+            } else {
+                "Unknown"
+            }
+            renderer
+        } catch (e: Exception) {
+            "Unknown"
+        }
+    }
+
+    private fun getUptimeString(): String {
+        val uptimeMillis = SystemClock.elapsedRealtime()
+        val hours = (uptimeMillis / (1000 * 60 * 60)).toInt()
+        val minutes = ((uptimeMillis / (1000 * 60)) % 60).toInt()
+        return "${hours}h ${minutes}m"
+    }
+
+    private fun getMemoryInfo(): String {
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val memInfo = ActivityManager.MemoryInfo()
+        activityManager.getMemoryInfo(memInfo)
+
+        val totalMem = memInfo.totalMem / (1024 * 1024 * 1024.0)
+        val availMem = memInfo.availMem / (1024 * 1024 * 1024.0)
+        val usedMem = totalMem - availMem
+        val memPercent = (usedMem / totalMem * 100).toInt()
+
+        return String.format("%.1f GB / %.1f GB (%d%%)", usedMem, totalMem, memPercent)
+    }
+
+    private fun getPackageCount(): String {
+        return try {
+            val pm = packageManager
+            val packages = pm.getInstalledApplications(PackageManager.GET_META_DATA)
+            val userApps = packages.filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }.size
+            val systemApps = packages.filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) != 0 }.size
+            "$userApps (user), $systemApps (system)"
+        } catch (e: Exception) {
+            "Unknown"
+        }
     }
 
     private fun setupPinnedApps() {
