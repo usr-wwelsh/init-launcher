@@ -1,5 +1,7 @@
 package com.initlauncher
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +18,13 @@ class AppGridAdapter(
     var onItemMoved: (() -> Unit)? = null
     var onStartDrag: ((RecyclerView.ViewHolder) -> Unit)? = null
 
+    private val handler = Handler(Looper.getMainLooper())
+    private val DOUBLE_TAP_DELAY = 300L
+
     class AppViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val appName: TextView = itemView as TextView
         var lastTapTime: Long = 0
+        var pendingAction: Runnable? = null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
@@ -34,19 +40,33 @@ class AppGridAdapter(
         // Double-tap to replace app, single tap to launch
         holder.appName.setOnClickListener {
             val currentTime = System.currentTimeMillis()
-            if (currentTime - holder.lastTapTime < 300) {
-                // Double tap detected - show app selector
+
+            if (currentTime - holder.lastTapTime < DOUBLE_TAP_DELAY) {
+                // Double tap detected - cancel pending action and show app selector
+                holder.pendingAction?.let { handler.removeCallbacks(it) }
+                holder.pendingAction = null
                 onLongClick?.invoke(position)
                 holder.lastTapTime = 0  // Reset to prevent triple-tap from being two double-taps
             } else {
-                // Single tap - launch app
-                onClick(position)
+                // Potential single tap - wait to see if double tap follows
+                holder.pendingAction?.let { handler.removeCallbacks(it) }
+
+                val action = Runnable {
+                    onClick(position)
+                    holder.pendingAction = null
+                }
+
+                holder.pendingAction = action
+                handler.postDelayed(action, DOUBLE_TAP_DELAY)
                 holder.lastTapTime = currentTime
             }
         }
 
         // Long press to enable drag
         holder.appName.setOnLongClickListener {
+            // Cancel any pending tap action when long press is detected
+            holder.pendingAction?.let { handler.removeCallbacks(it) }
+            holder.pendingAction = null
             onStartDrag?.invoke(holder)
             true
         }
