@@ -179,8 +179,7 @@
             android:text="00:00:00"
             android:textColor="@color/neon_green"
             android:textSize="32sp"
-            android:fontFamily="monospace"
-            android:textStyle="bold" />
+            android:fontFamily="monospace" />
     </LinearLayout>
 
     <!-- Neofetch Section - Aligned with status boxes -->
@@ -207,9 +206,9 @@
                 android:layout_marginBottom="6dp">
 
                 <!-- ASCII Art -->
-                <TextView
+                <com.initlauncher.RotatingAsciiTextView
                     android:id="@+id/asciiArt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/neon_green"
                     android:textSize="8sp"
@@ -217,7 +216,8 @@
                     android:lineSpacingExtra="0dp"
                     android:lineSpacingMultiplier="0.9"
                     android:maxLines="20"
-                    android:singleLine="false" />
+                    android:singleLine="false"
+                    android:gravity="center" />
 
                 <!-- System Info -->
                 <TextView
