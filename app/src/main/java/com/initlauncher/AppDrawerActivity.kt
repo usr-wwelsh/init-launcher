@@ -1,13 +1,19 @@
 package com.initlauncher
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.widget.Toast
+import java.io.File
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
@@ -21,7 +27,15 @@ class AppDrawerActivity : Activity() {
     companion object {
         private var cachedApps: List<AppInfo>? = null
         private var lastCacheTime: Long = 0
-        private const val CACHE_VALIDITY_MS = 24 * 60 * 60 * 1000L // 24 hours
+        private var cachedAppCount: Int = 0
+        private const val CACHE_VALIDITY_MS = 30 * 1000L // 30 seconds
+
+        // Public method to invalidate cache when apps are installed/removed
+        fun invalidateCache() {
+            cachedApps = null
+            lastCacheTime = 0
+            cachedAppCount = 0
+        }
     }
 
     private lateinit var searchBox: EditText
@@ -132,13 +146,39 @@ class AppDrawerActivity : Activity() {
                 }.sortedBy { it.name }
             }
 
+            // Load saved PWA shortcuts
+            val pwaPrefs = context.getSharedPreferences("pwa_shortcuts", Context.MODE_PRIVATE)
+            val pwaEntries = pwaPrefs.getStringSet("shortcuts", emptySet()) ?: emptySet()
+            val iconDir = File(context.filesDir, "pwa_icons")
+            val pwaApps = pwaEntries.mapNotNull { entry ->
+                val parts = entry.split("||")
+                if (parts.size >= 3) {
+                    val label = parts[0]
+                    val browserPkg = parts[1]
+                    val shortcutId = parts[2]
+                    val pwaId = "pwa://$browserPkg/$shortcutId"
+                    val launchPrefs = context.getSharedPreferences("app_launch_times", Context.MODE_PRIVATE)
+                    val lastLaunchTime = launchPrefs.getLong(pwaId, 0L)
+                    // Load saved icon
+                    val iconFile = File(iconDir, "${browserPkg}_${shortcutId.hashCode()}.png")
+                    val icon = if (iconFile.exists()) {
+                        val bitmap = BitmapFactory.decodeFile(iconFile.absolutePath)
+                        if (bitmap != null) BitmapDrawable(context.resources, bitmap) else null
+                    } else null
+                    AppInfo(label, pwaId, icon, lastLaunchTime)
+                } else null
+            }
+
+            val allLoadedApps = loadedApps + pwaApps
+
             // Update cache
-            cachedApps = loadedApps
+            cachedApps = allLoadedApps
+            cachedAppCount = allLoadedApps.size
             lastCacheTime = System.currentTimeMillis()
 
             // Update UI
             allApps.clear()
-            allApps.addAll(loadedApps)
+            allApps.addAll(allLoadedApps)
 
             // Apply current sort
             sortApps()
@@ -157,20 +197,62 @@ class AppDrawerActivity : Activity() {
     }
 
     private fun showAppMenu(appInfo: AppInfo) {
-        val options = arrayOf("Open", "App Info", "Uninstall")
-
-        val builder = android.app.AlertDialog.Builder(this)
-        builder.setTitle(appInfo.name)
-        builder.setItems(options) { _, which ->
-            when (which) {
-                0 -> launchApp(appInfo)
-                1 -> openAppSettings(appInfo)
-                2 -> uninstallApp(appInfo)
+        if (appInfo.packageName.startsWith("pwa://")) {
+            // PWA-specific menu
+            val options = arrayOf("Open", "Remove")
+            val builder = android.app.AlertDialog.Builder(this)
+            builder.setTitle(appInfo.name)
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> launchApp(appInfo)
+                    1 -> removePwa(appInfo)
+                }
             }
+            builder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            builder.show()
+        } else {
+            val options = arrayOf("Open", "App Info", "Uninstall")
+            val builder = android.app.AlertDialog.Builder(this)
+            builder.setTitle(appInfo.name)
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> launchApp(appInfo)
+                    1 -> openAppSettings(appInfo)
+                    2 -> uninstallApp(appInfo)
+                }
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            builder.show()
         }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
+    }
+
+    private fun removePwa(appInfo: AppInfo) {
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Remove PWA")
+        builder.setMessage("Remove \"${appInfo.name}\" from app list?")
+        builder.setPositiveButton("Remove") { _, _ ->
+            val parts = appInfo.packageName.removePrefix("pwa://").split("/", limit = 2)
+            val browserPkg = parts[0]
+            val shortcutId = parts[1]
+
+            // Remove from SharedPreferences
+            val prefs = getSharedPreferences("pwa_shortcuts", Context.MODE_PRIVATE)
+            val existing = prefs.getStringSet("shortcuts", mutableSetOf()) ?: mutableSetOf()
+            val updated = existing.toMutableSet()
+            updated.removeAll { it.contains("||$browserPkg||$shortcutId") }
+            prefs.edit().putStringSet("shortcuts", updated).apply()
+
+            // Remove saved icon
+            val iconFile = File(filesDir, "pwa_icons/${browserPkg}_${shortcutId.hashCode()}.png")
+            iconFile.delete()
+
+            // Refresh list
+            invalidateCache()
+            loadApps()
+
+            Toast.makeText(this, "${appInfo.name} removed", Toast.LENGTH_SHORT).show()
         }
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
         builder.show()
     }
 
@@ -178,11 +260,49 @@ class AppDrawerActivity : Activity() {
         // Track launch time
         trackAppLaunch(appInfo.packageName)
 
-        val intent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
-        if (intent != null) {
-            startActivity(intent)
-            finish()
+        if (appInfo.packageName.startsWith("pwa://")) {
+            launchPwa(appInfo)
+        } else {
+            val intent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
+            if (intent != null) {
+                startActivity(intent)
+                finish()
+            }
         }
+    }
+
+    private fun launchPwa(appInfo: AppInfo) {
+        val parts = appInfo.packageName.removePrefix("pwa://").split("/", limit = 2)
+        val browserPkg = parts[0]
+        val shortcutId = parts[1]
+
+        // Try LauncherApps.startShortcut first (proper way)
+        try {
+            val launcherApps = getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+            launcherApps.startShortcut(
+                browserPkg, shortcutId, null, null,
+                android.os.Process.myUserHandle()
+            )
+            finish()
+            return
+        } catch (e: Exception) {
+            // Fall through to URL fallback
+        }
+
+        // Fallback: if shortcut ID looks like a URL, open it in the browser
+        if (shortcutId.startsWith("http")) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(shortcutId))
+                intent.setPackage(browserPkg)
+                startActivity(intent)
+                finish()
+                return
+            } catch (e: Exception) {
+                // Fall through
+            }
+        }
+
+        Toast.makeText(this, "Could not launch ${appInfo.name}", Toast.LENGTH_SHORT).show()
     }
 
     private fun trackAppLaunch(packageName: String) {
@@ -200,6 +320,19 @@ class AppDrawerActivity : Activity() {
         val intent = Intent(Intent.ACTION_DELETE)
         intent.data = Uri.parse("package:${appInfo.packageName}")
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Quick check: count launchable apps and compare to cache
+        val currentAppCount = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+            .count { packageManager.getLaunchIntentForPackage(it.packageName) != null }
+
+        if (cachedApps == null || currentAppCount != cachedAppCount) {
+            // App count changed - something was installed or removed
+            invalidateCache()
+            loadApps()
+        }
     }
 
     override fun onBackPressed() {

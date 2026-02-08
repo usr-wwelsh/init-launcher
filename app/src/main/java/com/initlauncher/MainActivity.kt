@@ -17,6 +17,7 @@ import android.os.Looper
 import android.os.StatFs
 import android.os.SystemClock
 import android.Manifest
+import android.content.pm.ShortcutManager
 import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -75,6 +76,7 @@ class MainActivity : Activity() {
         startMonitoring()
         checkDefaultLauncher()
         setupGestureDetector()
+        handleShortcutInstall(intent)
 
         allAppsButton.setOnClickListener {
             startActivity(Intent(this, AppDrawerActivity::class.java))
@@ -85,6 +87,11 @@ class MainActivity : Activity() {
             openLauncherSettings()
             true
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleShortcutInstall(intent)
     }
 
     private fun setupGestureDetector() {
@@ -580,6 +587,70 @@ class MainActivity : Activity() {
         } catch (e: Exception) {
             signalText.text = "····"
         }
+    }
+
+    private fun handleShortcutInstall(intent: Intent?) {
+        if (intent == null) return
+
+        when (intent.action) {
+            "com.android.launcher.action.INSTALL_SHORTCUT" -> {
+                // Legacy shortcut installation (pre-Android 8)
+                val shortcutIntent = intent.getParcelableExtra<Intent>("android.intent.extra.shortcut.INTENT")
+                val shortcutName = intent.getStringExtra("android.intent.extra.shortcut.NAME") ?: "App"
+
+                // Invalidate app drawer cache so the new PWA shows up
+                AppDrawerActivity.invalidateCache()
+
+                // Show notification
+                Toast.makeText(
+                    this,
+                    "$shortcutName installed - check app drawer",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // Optional: Ask if user wants to pin it
+                Handler(Looper.getMainLooper()).postDelayed({
+                    askToPinApp(shortcutName, shortcutIntent)
+                }, 500)
+            }
+        }
+    }
+
+    private fun askToPinApp(appName: String, appIntent: Intent?) {
+        if (appIntent == null) return
+
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Pin to Home?")
+        builder.setMessage("Would you like to pin \"$appName\" to your home screen?")
+        builder.setPositiveButton("Yes") { _, _ ->
+            // Find first empty slot or replace last slot
+            val emptySlotIndex = pinnedApps.indexOfFirst { it.packageName.isEmpty() }
+            if (emptySlotIndex != -1) {
+                // Extract package name from intent
+                val packageName = appIntent.component?.packageName ?: appIntent.`package` ?: ""
+                if (packageName.isNotEmpty()) {
+                    val pm = packageManager
+                    try {
+                        val appInfo = pm.getApplicationInfo(packageName, 0)
+                        pinnedApps[emptySlotIndex] = AppInfo(
+                            pm.getApplicationLabel(appInfo).toString(),
+                            packageName
+                        )
+                        adapter.notifyItemChanged(emptySlotIndex)
+                        savePinnedApps()
+                        Toast.makeText(this, "Pinned $appName", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(this, "No empty slots available", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "No empty slots - double-tap a slot to replace", Toast.LENGTH_SHORT).show()
+            }
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     override fun onDestroy() {
