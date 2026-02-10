@@ -356,10 +356,25 @@ class MainActivity : Activity() {
             val pm = packageManager
             val packageNames = savedAppsString.split(",")
 
+            // Load PWA registry for resolving PWA names
+            val pwaPrefs = getSharedPreferences("pwa_shortcuts", Context.MODE_PRIVATE)
+            val pwaEntries = pwaPrefs.getStringSet("shortcuts", emptySet()) ?: emptySet()
+            val pwaMap = pwaEntries.mapNotNull { entry ->
+                val parts = entry.split("||")
+                if (parts.size >= 3) "pwa://${parts[1]}/${parts[2]}" to parts[0] else null
+            }.toMap()
+
             packageNames.forEach { packageName ->
                 if (packageName.isEmpty()) {
                     // Empty slot
                     pinnedApps.add(AppInfo("[EMPTY]", ""))
+                } else if (packageName.startsWith("pwa://")) {
+                    val label = pwaMap[packageName]
+                    if (label != null) {
+                        pinnedApps.add(AppInfo(label, packageName))
+                    } else {
+                        pinnedApps.add(AppInfo("[EMPTY]", ""))
+                    }
                 } else {
                     try {
                         val appInfo = pm.getApplicationInfo(packageName, 0)
@@ -409,8 +424,21 @@ class MainActivity : Activity() {
         val apps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
             .filter { pm.getLaunchIntentForPackage(it.packageName) != null }
             .map { AppInfo(pm.getApplicationLabel(it).toString(), it.packageName) }
-            .sortedBy { it.name }
-        return apps
+
+        // Include PWAs
+        val pwaPrefs = getSharedPreferences("pwa_shortcuts", Context.MODE_PRIVATE)
+        val pwaEntries = pwaPrefs.getStringSet("shortcuts", emptySet()) ?: emptySet()
+        val pwaApps = pwaEntries.mapNotNull { entry ->
+            val parts = entry.split("||")
+            if (parts.size >= 3) {
+                val label = parts[0]
+                val browserPkg = parts[1]
+                val shortcutId = parts[2]
+                AppInfo(label, "pwa://$browserPkg/$shortcutId")
+            } else null
+        }
+
+        return (apps + pwaApps).sortedBy { it.name }
     }
 
     private fun launchApp(appInfo: AppInfo) {
@@ -419,10 +447,44 @@ class MainActivity : Activity() {
         // Track launch time
         trackAppLaunch(appInfo.packageName)
 
-        val intent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
-        if (intent != null) {
-            startActivity(intent)
+        if (appInfo.packageName.startsWith("pwa://")) {
+            launchPwa(appInfo)
+        } else {
+            val intent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
+            if (intent != null) {
+                startActivity(intent)
+            }
         }
+    }
+
+    private fun launchPwa(appInfo: AppInfo) {
+        val parts = appInfo.packageName.removePrefix("pwa://").split("/", limit = 2)
+        val browserPkg = parts[0]
+        val shortcutId = parts[1]
+
+        try {
+            val launcherApps = getSystemService(Context.LAUNCHER_APPS_SERVICE) as android.content.pm.LauncherApps
+            launcherApps.startShortcut(
+                browserPkg, shortcutId, null, null,
+                android.os.Process.myUserHandle()
+            )
+            return
+        } catch (e: Exception) {
+            // Fall through to URL fallback
+        }
+
+        if (shortcutId.startsWith("http")) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(shortcutId))
+                intent.setPackage(browserPkg)
+                startActivity(intent)
+                return
+            } catch (e: Exception) {
+                // Fall through
+            }
+        }
+
+        Toast.makeText(this, "Could not launch ${appInfo.name}", Toast.LENGTH_SHORT).show()
     }
 
     private fun trackAppLaunch(packageName: String) {
