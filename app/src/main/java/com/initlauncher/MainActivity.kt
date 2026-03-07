@@ -551,6 +551,10 @@ class MainActivity : Activity() {
         // Battery
         val batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
         val batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryStatus = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+        val isCharging = batteryStatus == BatteryManager.BATTERY_STATUS_CHARGING
+                      || batteryStatus == BatteryManager.BATTERY_STATUS_FULL
 
         // Cellular Signal Strength
         updateCellSignal()
@@ -569,7 +573,7 @@ class MainActivity : Activity() {
         }
 
         // Update UI
-        batteryText.text = "$batteryLevel%"
+        batteryText.text = if (isCharging) "$batteryLevel% [+]" else "$batteryLevel%"
         wifiText.text = getSignalBars(wifiBars)
 
         networkStats.text = String.format(
