@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000000</color>
-    <color name="neon_green">#00FF00</color>
-    <color name="neon_cyan">#00FFFF</color>
-    <color name="dark_green">#008000</color>
-    <color name="border_color">#00FF00</color>
-    <color name="white">#FFFFFF</color>
-    <color name="red">#FF0000</color>
-    <color name="magenta">#FF00FF</color>
-    <color name="purple">#A020F0</color>
-    <color name="light_gray">#CCCCCC</color>
+    <!-- === THEME: Solaris CDE / Commonality Sol === -->
+    <!-- Change these to retheme the entire app     -->
+
+    <color name="background">#6E7E8E</color>       <!-- CDE blue-gray desktop -->
+    <color name="surface">#7A8B9A</color>          <!-- Raised panel fill -->
+    <color name="surface_dark">#5A6B7A</color>     <!-- Recessed / item fill -->
+    <color name="progress_track">#4A5A68</color>   <!-- Progress bar background -->
+
+    <color name="bevel_highlight">#98AABB</color>  <!-- Top-left bright edge -->
+    <color name="bevel_shadow">#3A4A58</color>     <!-- Bottom-right dark edge -->
+
+    <color name="text_primary">#FFFFFF</color>     <!-- Primary text / values -->
+    <color name="text_label">#1A2A38</color>       <!-- Section labels (dark navy, readable on gray) -->
+    <color name="text_hint">#4A5A68</color>        <!-- Placeholder / hint text -->
+
+    <color name="accent_primary">#FFFFFF</color>   <!-- Clock, buttons, app names -->
+    <color name="accent_secondary">#2A3A50</color> <!-- Dark navy accent -->
+    <color name="border_color">#C05870</color>     <!-- CDE title bar pink -->
+
+    <color name="ram_bar">#C05870</color>          <!-- RAM progress (CDE pink) -->
+    <color name="disk_bar">#5A7090</color>         <!-- Disk progress (slate blue) -->
+    <color name="net_upload">#C05870</color>       <!-- Network upload line -->
+    <color name="net_download">#2A4A70</color>     <!-- Network download line -->
+    <color name="net_grid">#4A5A6A</color>         <!-- Network graph grid -->
+
+    <!-- Legacy aliases (layouts reference these) -->
+    <color name="black">@color/background</color>
+    <color name="neon_green">@color/accent_primary</color>
+    <color name="neon_cyan">@color/text_label</color>
+    <color name="white">@color/text_primary</color>
+    <color name="red">@color/ram_bar</color>
+    <color name="purple">@color/disk_bar</color>
+    <color name="light_gray">@color/surface</color>
+    <color name="dark_green">@color/accent_secondary</color>
+    <color name="magenta">@color/accent_primary</color>
 </resources>

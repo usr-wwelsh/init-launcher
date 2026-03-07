@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
 
 class NetworkGraphView @JvmOverloads constructor(
     context: Context,
@@ -13,21 +14,21 @@ class NetworkGraphView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val uploadPaint = Paint().apply {
-        color = 0xFF00FF00.toInt() // Green for upload
+        color = ContextCompat.getColor(context, R.color.net_upload)
         strokeWidth = 2f
         style = Paint.Style.STROKE
         isAntiAlias = true
     }
 
     private val downloadPaint = Paint().apply {
-        color = 0xFFFF0088.toInt() // Pink/Red for download
+        color = ContextCompat.getColor(context, R.color.net_download)
         strokeWidth = 2f
         style = Paint.Style.STROKE
         isAntiAlias = true
     }
 
     private val gridPaint = Paint().apply {
-        color = 0xFF333333.toInt()
+        color = ContextCompat.getColor(context, R.color.net_grid)
         strokeWidth = 1f
         style = Paint.Style.STROKE
         isAntiAlias = true
