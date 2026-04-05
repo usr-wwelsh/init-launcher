@@ -11,10 +11,11 @@ A minimal, stripped-metal style Android launcher with system monitoring capabili
 - **Bare Metal Aesthetic**: Black background, neon green monospace text, 1dp borders
 - **Network Graph**: Real-time network speed visualization
 - **Lightweight**: Minimal resource footprint, perfect for older devices
+- **Lockscreen Companion App**: A matching terminal-style lockscreen with ASCII big clock, date, and notification display (see [`lockscreen/`](lockscreen/))
 
 ## Screenshots
 
-<img src="demo.webp" width="400" alt="Init Launcher Demo">
+<img src="demo1.webp" width="400" alt="Init Launcher Demo"> <img src="demo2.webp" width="400" alt="Init Lockscreen Demo">
 
 ## Installation
 
@@ -81,6 +82,18 @@ app/src/main/
 │   └── drawable/
 │       ├── ic_launcher.xml      # App icon
 │       └── app_item_background.xml
+└── AndroidManifest.xml
+
+lockscreen/src/main/
+├── java/com/initlauncher/lockscreen/
+│   ├── LockscreenActivity.kt    # Lockscreen UI with clock and notifications
+│   ├── LockscreenService.kt     # Background service to show lockscreen
+│   ├── NotificationListener.kt  # Reads system notifications
+│   ├── NotificationItem.kt      # Notification data model
+│   ├── BlockClockView.kt        # ASCII big-block clock view
+│   ├── AsciiBigFont.kt          # ASCII font rendering
+│   ├── SetupActivity.kt         # First-run permission setup
+│   └── BootReceiver.kt          # Auto-start on device boot
 └── AndroidManifest.xml
 ```
 

@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Init Launcher"
 include ':app'
+include ':lockscreen'

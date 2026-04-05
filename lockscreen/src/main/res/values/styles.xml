@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PinButton">
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/border_box</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="PinDot">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_marginHorizontal">10dp</item>
+        <item name="android:background">@drawable/pin_dot_empty</item>
+    </style>
+
+</resources>

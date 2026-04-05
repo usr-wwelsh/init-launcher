@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Foreground service -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <!-- Start on boot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Keep screen on while showing lockscreen -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Required for full-screen intent to fire when screen is locked -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
+    <!-- Required on Android 13+ to post any notification -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Draw overlay window above the lockscreen (the core mechanism) -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+
+        <!-- Setup/enable screen (launcher entry point) -->
+        <activity
+            android:name=".SetupActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Fullscreen lockscreen overlay activity -->
+        <activity
+            android:name=".LockscreenActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true" />
+
+        <!-- Foreground service that watches for screen-on events -->
+        <service
+            android:name=".LockscreenService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Lockscreen overlay service that shows a custom lockscreen when the display turns on" />
+        </service>
+
+        <!-- Boot receiver to restart the service after reboot -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Notification listener service (user grants access in Settings) -->
+        <service
+            android:name=".NotificationListener"
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

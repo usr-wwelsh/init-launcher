@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INIT LOCKSCREEN"
+        android:fontFamily="monospace"
+        android:textColor="@color/border_color"
+        android:textSize="20sp"
+        android:letterSpacing="0.15"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="setup"
+        android:fontFamily="monospace"
+        android:textColor="@color/text_label"
+        android:textSize="13sp"
+        android:paddingBottom="24dp" />
+
+    <!-- Permissions panel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border_box"
+        android:padding="14dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PERMISSIONS"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_label"
+            android:textSize="10sp"
+            android:letterSpacing="0.2"
+            android:paddingBottom="10dp" />
+
+        <!-- Notification access row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="notification access"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/statusNotif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ ? ]"
+                android:fontFamily="monospace"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNotifAccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GRANT NOTIFICATION ACCESS"
+            android:fontFamily="monospace"
+            android:textSize="12sp"
+            android:background="@drawable/border_box"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Overlay permission row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="display over other apps"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/statusOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ ? ]"
+                android:fontFamily="monospace"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GRANT DISPLAY OVER OTHER APPS"
+            android:fontFamily="monospace"
+            android:textSize="12sp"
+            android:background="@drawable/border_box"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Full-screen intent (required on Android 14+) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="full screen intent"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/statusFullScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ ? ]"
+                android:fontFamily="monospace"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnFullScreenIntent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GRANT FULL SCREEN INTENT"
+            android:fontFamily="monospace"
+            android:textSize="12sp"
+            android:background="@drawable/border_box"
+            android:textColor="@color/text_primary" />
+
+    </LinearLayout>
+
+    <!-- PIN panel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border_box"
+        android:padding="14dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PIN LOCK"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_label"
+            android:textSize="10sp"
+            android:letterSpacing="0.2"
+            android:paddingBottom="10dp" />
+
+        <TextView
+            android:id="@+id/statusPin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="[ -- ] NO PIN"
+            android:fontFamily="monospace"
+            android:textSize="12sp"
+            android:paddingBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSetPin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SET PIN"
+                android:fontFamily="monospace"
+                android:textSize="12sp"
+                android:background="@drawable/border_box"
+                android:textColor="@color/text_primary"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnClearPin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CLEAR PIN"
+                android:fontFamily="monospace"
+                android:textSize="12sp"
+                android:background="@drawable/border_box"
+                android:textColor="@color/text_primary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Service panel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border_box"
+        android:padding="14dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SERVICE"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_label"
+            android:textSize="10sp"
+            android:letterSpacing="0.2"
+            android:paddingBottom="10dp" />
+
+        <Button
+            android:id="@+id/btnToggleService"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="START LOCKSCREEN SERVICE"
+            android:fontFamily="monospace"
+            android:textSize="12sp"
+            android:background="@drawable/border_box"
+            android:textColor="@color/text_primary" />
+
+    </LinearLayout>
+
+    <!-- Instructions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border_box"
+        android:padding="14dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HOW IT WORKS"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_label"
+            android:textSize="10sp"
+            android:letterSpacing="0.2"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. grant notification access above\n2. start the service\n3. lock your screen to test\n\nswipe up or tap [ TAP TO UNLOCK ]\nto dismiss back to system lock"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_hint"
+            android:textSize="11sp"
+            android:lineSpacingMultiplier="1.4" />
+
+    </LinearLayout>
+
+</LinearLayout>

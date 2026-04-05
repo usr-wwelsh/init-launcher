@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- ═══ MAIN LOCKSCREEN (clock + notifications) ═══ -->
+    <LinearLayout
+        android:id="@+id/mainContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="INIT LOCKSCREEN"
+                    android:fontFamily="monospace"
+                    android:textColor="@color/border_color"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.2"
+                    android:paddingBottom="12dp" />
+
+                <!-- Clock panel -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_box"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="16dp"
+                    android:layout_marginBottom="12dp">
+
+                    <!-- ASCII art clock — auto-sizes to fill the panel width -->
+                    <TextView
+                        android:id="@+id/clockView"
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/text_label"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="5sp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeStepGranularity="1sp"
+                        android:lineSpacingExtra="0dp"
+                        android:lineSpacingMultiplier="1.0"
+                        android:includeFontPadding="false"
+                        android:gravity="start|top" />
+
+                    <TextView
+                        android:id="@+id/amPmView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AM"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/text_label"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:id="@+id/dateView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MONDAY  JAN 01"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/text_label"
+                        android:textSize="14sp"
+                        android:letterSpacing="0.08"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <!-- Notifications panel -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_box"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="NOTIFICATIONS"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/text_label"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.2"
+                        android:paddingBottom="6dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bevel_shadow"
+                        android:layout_marginBottom="6dp" />
+
+                    <LinearLayout
+                        android:id="@+id/notifContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <TextView
+                        android:id="@+id/emptyNotifView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="no notifications"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Swipe hint (fixed at bottom) -->
+        <TextView
+            android:id="@+id/swipeHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="[ SWIPE UP TO UNLOCK ]"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_label"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:letterSpacing="0.15"
+            android:padding="18dp"
+            android:background="@drawable/border_box" />
+
+    </LinearLayout>
+
+    <!-- ═══ PIN ENTRY PANEL (shown on swipe up) ═══ -->
+    <LinearLayout
+        android:id="@+id/pinPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background"
+        android:padding="24dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INIT LOCKSCREEN"
+            android:fontFamily="monospace"
+            android:textColor="@color/border_color"
+            android:textSize="11sp"
+            android:letterSpacing="0.2"
+            android:paddingBottom="24dp" />
+
+        <TextView
+            android:id="@+id/pinPrompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="enter pin"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_label"
+            android:textSize="13sp"
+            android:paddingBottom="16dp" />
+
+        <!-- PIN dot indicators -->
+        <LinearLayout
+            android:id="@+id/pinDotsRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp">
+
+            <TextView android:id="@+id/pinDot0" style="@style/PinDot" />
+            <TextView android:id="@+id/pinDot1" style="@style/PinDot" />
+            <TextView android:id="@+id/pinDot2" style="@style/PinDot" />
+            <TextView android:id="@+id/pinDot3" style="@style/PinDot" />
+
+        </LinearLayout>
+
+        <!-- Numpad -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:layout_marginBottom="8dp">
+                <TextView android:id="@+id/pin1" style="@style/PinButton" android:text="1" />
+                <TextView android:id="@+id/pin2" style="@style/PinButton" android:text="2" />
+                <TextView android:id="@+id/pin3" style="@style/PinButton" android:text="3" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:layout_marginBottom="8dp">
+                <TextView android:id="@+id/pin4" style="@style/PinButton" android:text="4" />
+                <TextView android:id="@+id/pin5" style="@style/PinButton" android:text="5" />
+                <TextView android:id="@+id/pin6" style="@style/PinButton" android:text="6" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:layout_marginBottom="8dp">
+                <TextView android:id="@+id/pin7" style="@style/PinButton" android:text="7" />
+                <TextView android:id="@+id/pin8" style="@style/PinButton" android:text="8" />
+                <TextView android:id="@+id/pin9" style="@style/PinButton" android:text="9" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:id="@+id/pinDel" style="@style/PinButton" android:text="DEL" android:textSize="12sp" />
+                <TextView android:id="@+id/pin0" style="@style/PinButton" android:text="0" />
+                <View android:layout_width="72dp" android:layout_height="72dp" android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Back to clock -->
+        <TextView
+            android:id="@+id/pinBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="[ BACK ]"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_hint"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+</FrameLayout>

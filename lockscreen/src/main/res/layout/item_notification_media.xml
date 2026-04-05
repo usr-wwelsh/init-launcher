@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/app_item_background"
+    android:padding="10dp"
+    android:layout_marginBottom="4dp">
+
+    <!-- Album art -->
+    <ImageView
+        android:id="@+id/albumArt"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:background="@color/surface_dark"
+        android:layout_marginEnd="10dp" />
+
+    <!-- Track info + controls -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/notifApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textColor="@color/border_color"
+            android:textSize="9sp"
+            android:letterSpacing="0.2" />
+
+        <TextView
+            android:id="@+id/notifTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/notifText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textColor="@color/text_hint"
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="1dp" />
+
+        <!-- Playback action buttons (up to 3) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/mediaAction0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_label"
+                android:textSize="10sp"
+                android:background="@drawable/border_box"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:layout_marginEnd="4dp"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/mediaAction1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_label"
+                android:textSize="10sp"
+                android:background="@drawable/border_box"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:layout_marginEnd="4dp"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/mediaAction2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_label"
+                android:textSize="10sp"
+                android:background="@drawable/border_box"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

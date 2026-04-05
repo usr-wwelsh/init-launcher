@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- === THEME: Solaris CDE / Commonality Sol === -->
-    <!-- Change these to retheme the entire app     -->
+    <!-- === THEME: Flat mono === -->
+    <!-- Change these to retheme the entire app -->
 
-    <color name="background">#6E7E8E</color>       <!-- CDE blue-gray desktop -->
-    <color name="surface">#7A8B9A</color>          <!-- Raised panel fill -->
-    <color name="surface_dark">#5A6B7A</color>     <!-- Recessed / item fill -->
-    <color name="progress_track">#4A5A68</color>   <!-- Progress bar background -->
+    <color name="background">#3B3E47</color>       <!-- Main background -->
+    <color name="surface">#3B3E47</color>          <!-- Raised panel fill -->
+    <color name="surface_dark">#3B3E47</color>     <!-- Recessed / item fill -->
+    <color name="progress_track">#3B3E47</color>   <!-- Progress bar background -->
 
-    <color name="bevel_highlight">#98AABB</color>  <!-- Top-left bright edge -->
-    <color name="bevel_shadow">#3A4A58</color>     <!-- Bottom-right dark edge -->
+    <color name="bevel_highlight">#3B3E47</color>  <!-- Top-left bright edge -->
+    <color name="bevel_shadow">#3B3E47</color>     <!-- Bottom-right dark edge -->
 
-    <color name="text_primary">#FFFFFF</color>     <!-- Primary text / values -->
-    <color name="text_label">#1A2A38</color>       <!-- Section labels (dark navy, readable on gray) -->
-    <color name="text_hint">#4A5A68</color>        <!-- Placeholder / hint text -->
+    <color name="text_primary">#B8B8B8</color>     <!-- Primary text / values -->
+    <color name="text_label">#B8B8B8</color>       <!-- Section labels -->
+    <color name="text_hint">#B8B8B8</color>        <!-- Placeholder / hint text -->
 
-    <color name="accent_primary">#FFFFFF</color>   <!-- Clock, buttons, app names -->
-    <color name="accent_secondary">#2A3A50</color> <!-- Dark navy accent -->
-    <color name="border_color">#C05870</color>     <!-- CDE title bar pink -->
+    <color name="accent_primary">#B8B8B8</color>   <!-- Clock, buttons, app names -->
+    <color name="accent_secondary">#3B3E47</color> <!-- Dark accent -->
+    <color name="border_color">#B8B8B8</color>     <!-- Border / title bar -->
 
-    <color name="ram_bar">#C05870</color>          <!-- RAM progress (CDE pink) -->
-    <color name="disk_bar">#5A7090</color>         <!-- Disk progress (slate blue) -->
-    <color name="net_upload">#C05870</color>       <!-- Network upload line -->
-    <color name="net_download">#2A4A70</color>     <!-- Network download line -->
-    <color name="net_grid">#4A5A6A</color>         <!-- Network graph grid -->
+    <color name="ram_bar">#B8B8B8</color>          <!-- RAM progress -->
+    <color name="disk_bar">#B8B8B8</color>         <!-- Disk progress -->
+    <color name="net_upload">#B8B8B8</color>       <!-- Network upload line -->
+    <color name="net_download">#B8B8B8</color>     <!-- Network download line -->
+    <color name="net_grid">#3B3E47</color>         <!-- Network graph grid -->
 
     <!-- Legacy aliases (layouts reference these) -->
     <color name="black">@color/background</color>
