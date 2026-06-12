@@ -375,6 +375,13 @@ class MainActivity : Activity() {
                     } else {
                         pinnedApps.add(AppInfo("[EMPTY]", ""))
                     }
+                } else if (packageName.startsWith("action://")) {
+                    val parsed = parseUrlAction(packageName)
+                    if (parsed != null) {
+                        pinnedApps.add(AppInfo(parsed.first, packageName))
+                    } else {
+                        pinnedApps.add(AppInfo("[EMPTY]", ""))
+                    }
                 } else {
                     try {
                         val appInfo = pm.getApplicationInfo(packageName, 0)
@@ -404,19 +411,127 @@ class MainActivity : Activity() {
 
     private fun showAppSelector(position: Int) {
         val apps = getInstalledApps()
-        val appNames = apps.map { it.name }.toTypedArray()
+        val urlActionLabel = "➕ URL action…"
+        val itemNames = (listOf(urlActionLabel) + apps.map { it.name }).toTypedArray()
 
         val builder = android.app.AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.select_app))
-        builder.setItems(appNames) { _, which ->
-            pinnedApps[position] = apps[which]
-            adapter.notifyItemChanged(position)
-            savePinnedApps()
+        builder.setItems(itemNames) { _, which ->
+            if (which == 0) {
+                showUrlActionDialog(position)
+            } else {
+                pinnedApps[position] = apps[which - 1]
+                adapter.notifyItemChanged(position)
+                savePinnedApps()
+            }
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
         }
         builder.show()
+    }
+
+    // URL action tiles: a generic "fire an HTTP request" slot. Encoded as
+    // action://<base64(label  method  url)> so it persists in the
+    // same comma-separated grid string as apps and PWAs, with no commas.
+    private fun encodeUrlAction(label: String, method: String, url: String): String {
+        val raw = "$label$method$url"
+        val b64 = android.util.Base64.encodeToString(
+            raw.toByteArray(), android.util.Base64.URL_SAFE or android.util.Base64.NO_WRAP
+        )
+        return "action://$b64"
+    }
+
+    private fun parseUrlAction(token: String): Triple<String, String, String>? {
+        return try {
+            val decoded = String(android.util.Base64.decode(
+                token.removePrefix("action://"),
+                android.util.Base64.URL_SAFE or android.util.Base64.NO_WRAP
+            ))
+            val parts = decoded.split("")
+            if (parts.size >= 3) Triple(parts[0], parts[1], parts[2]) else null
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun showUrlActionDialog(position: Int) {
+        val pad = (16 * resources.displayMetrics.density).toInt()
+        val container = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(pad, pad, pad, 0)
+        }
+        val labelInput = android.widget.EditText(this).apply {
+            hint = "Label (e.g. Lights Off)"
+            inputType = android.text.InputType.TYPE_CLASS_TEXT
+        }
+        val urlInput = android.widget.EditText(this).apply {
+            hint = "URL (http://host:port/path)"
+            inputType = android.text.InputType.TYPE_TEXT_VARIATION_URI
+        }
+        val methodSpinner = android.widget.Spinner(this).apply {
+            adapter = android.widget.ArrayAdapter(
+                this@MainActivity,
+                android.R.layout.simple_spinner_dropdown_item,
+                listOf("GET", "POST")
+            )
+        }
+
+        // Prefill when editing an existing action slot.
+        parseUrlAction(pinnedApps[position].packageName)?.let { (l, m, u) ->
+            labelInput.setText(l)
+            urlInput.setText(u)
+            methodSpinner.setSelection(if (m == "POST") 1 else 0)
+        }
+
+        container.addView(labelInput)
+        container.addView(urlInput)
+        container.addView(methodSpinner)
+
+        android.app.AlertDialog.Builder(this)
+            .setTitle("URL Action")
+            .setView(container)
+            .setPositiveButton("Save") { _, _ ->
+                val label = labelInput.text.toString().trim().ifEmpty { "Action" }
+                var url = urlInput.text.toString().trim()
+                if (url.isEmpty()) {
+                    Toast.makeText(this, "URL required", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    url = "http://$url"
+                }
+                val method = methodSpinner.selectedItem.toString()
+                pinnedApps[position] = AppInfo(label, encodeUrlAction(label, method, url))
+                adapter.notifyItemChanged(position)
+                savePinnedApps()
+            }
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun fireUrlAction(token: String) {
+        val parsed = parseUrlAction(token) ?: return
+        val (label, method, url) = parsed
+        Thread {
+            val msg = try {
+                val conn = (java.net.URL(url).openConnection() as java.net.HttpURLConnection).apply {
+                    requestMethod = method
+                    connectTimeout = 2000
+                    readTimeout = 2000
+                    if (method == "POST") {
+                        doOutput = true
+                        outputStream.close()
+                    }
+                }
+                val code = conn.responseCode
+                conn.disconnect()
+                if (code in 200..299) "$label ✓" else "$label: HTTP $code"
+            } catch (e: Exception) {
+                "$label ✗ ${e.message ?: "failed"}"
+            }
+            handler.post { Toast.makeText(this, msg, Toast.LENGTH_SHORT).show() }
+        }.start()
     }
 
     private fun getInstalledApps(): List<AppInfo> {
@@ -447,7 +562,9 @@ class MainActivity : Activity() {
         // Track launch time
         trackAppLaunch(appInfo.packageName)
 
-        if (appInfo.packageName.startsWith("pwa://")) {
+        if (appInfo.packageName.startsWith("action://")) {
+            fireUrlAction(appInfo.packageName)
+        } else if (appInfo.packageName.startsWith("pwa://")) {
             launchPwa(appInfo)
         } else {
             val intent = packageManager.getLaunchIntentForPackage(appInfo.packageName)

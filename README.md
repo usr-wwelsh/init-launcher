@@ -7,6 +7,7 @@ A minimal, stripped-metal style Android launcher with system monitoring capabili
 - **System Monitor**: Real-time display of RAM, storage, and network stats with live graphs
 - **Neofetch-style Header**: ASCII art Android logo with device info
 - **Pinned Apps Grid**: Quick access to 9 favorite apps (3x3 grid)
+- **URL Action Tiles**: Pin a slot that fires an HTTP GET/POST on tap — webhooks, home automation, self-hosted triggers (e.g. a homelab endpoint that toggles your lights)
 - **App Drawer**: Full list of installed applications with search and sorting (Recent/A-Z)
 - **Bare Metal Aesthetic**: Black background, neon green monospace text, 1dp borders
 - **Network Graph**: Real-time network speed visualization
@@ -42,6 +43,7 @@ Check the [Releases](https://github.com/usr-wwelsh/init-launcher/releases) page 
 - **Launch Apps**: Tap on any pinned app name
 - **Reorder Pinned Apps**: Long-press and drag a pinned app to reorder
 - **Replace Pinned App**: Double-tap on a pinned app slot to select a new app
+- **Add a URL Action**: Double-tap a slot and choose "➕ URL action…" to bind a label + URL + method (GET/POST). Tapping the tile fires the request with a 2s timeout and toasts the result. Cleartext `http://` is allowed for LAN/homelab targets.
 - **View All Apps**: Tap the cyclone emoji button `[ 🌀 ]` to open the app drawer
 - **Search Apps**: Use the search bar in the app drawer to filter applications
 - **Sort Apps**: Tap "Recent" or "A-Z" in the top-right of the app drawer to toggle between recently used and alphabetical sorting
