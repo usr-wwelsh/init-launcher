@@ -119,6 +119,10 @@ class LockscreenService : Service() {
                 @Suppress("DEPRECATION") WindowManager.LayoutParams.FLAG_FULLSCREEN,
             PixelFormat.OPAQUE
         )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            params.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
 
         val clockView    = view.findViewById<TextView>(R.id.clockView)
         val amPmView     = view.findViewById<TextView>(R.id.amPmView)
@@ -255,12 +259,19 @@ class LockscreenService : Service() {
         windowManager.addView(view, params)
         overlayView = view
 
-        // Hide the status bar once the view is attached
+        // Hide status + nav bars once the view is attached, and re-hide whenever
+        // this overlay regains focus (Android resets bar visibility on focus changes)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            view.post {
-                view.windowInsetsController?.hide(
-                    android.view.WindowInsets.Type.statusBars()
-                )
+            fun hideSystemBars() {
+                view.windowInsetsController?.let { controller ->
+                    controller.systemBarsBehavior =
+                        android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    controller.hide(android.view.WindowInsets.Type.systemBars())
+                }
+            }
+            view.post { hideSystemBars() }
+            view.viewTreeObserver.addOnWindowFocusChangeListener { hasFocus ->
+                if (hasFocus) hideSystemBars()
             }
         }
 

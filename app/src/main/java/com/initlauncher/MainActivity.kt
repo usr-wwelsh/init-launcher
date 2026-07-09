@@ -66,6 +66,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableImmersiveMode()
         setContentView(R.layout.activity_main)
 
         sharedPreferences = getSharedPreferences("init_launcher_prefs", Context.MODE_PRIVATE)
@@ -92,6 +93,11 @@ class MainActivity : Activity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleShortcutInstall(intent)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) enableImmersiveMode()
     }
 
     private fun setupGestureDetector() {

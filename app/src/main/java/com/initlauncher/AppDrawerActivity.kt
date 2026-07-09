@@ -49,6 +49,7 @@ class AppDrawerActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableImmersiveMode()
         setContentView(R.layout.activity_app_drawer)
 
         searchBox = findViewById(R.id.searchBox)
@@ -59,6 +60,11 @@ class AppDrawerActivity : Activity() {
         setupSort()
         updateSortButtonText()
         loadApps()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) enableImmersiveMode()
     }
 
     private fun updateSortButtonText() {
