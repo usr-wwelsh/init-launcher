@@ -23,6 +23,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <!-- Signature-level permission gating read access to the theme provider below -->
+    <permission
+        android:name="com.initlauncher.permission.READ_THEME"
+        android:protectionLevel="signature" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -59,6 +64,23 @@
             android:name=".AppDrawerActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ThemeSettingsActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".CustomThemeEditActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <!-- Exposes the active theme (read-only) to the lockscreen module -->
+        <provider
+            android:name=".ThemeContentProvider"
+            android:authorities="com.initlauncher.themeprovider"
+            android:exported="true"
+            android:readPermission="com.initlauncher.permission.READ_THEME" />
 
         <!-- Receiver for package install/uninstall events -->
         <receiver

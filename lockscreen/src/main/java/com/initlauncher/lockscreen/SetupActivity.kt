@@ -15,8 +15,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.initlauncher.theme.DefaultThemes
+import com.initlauncher.theme.Theme
+import com.initlauncher.theme.ThemeApplier
 
 class SetupActivity : Activity() {
+
+    private var theme: Theme = DefaultThemes.CURRENT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +63,8 @@ class SetupActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+        theme = ThemeClient.resolveTheme(this)
+        ThemeApplier.apply(findViewById(android.R.id.content), theme)
         updateStatus()
     }
 
@@ -122,7 +129,7 @@ class SetupActivity : Activity() {
                 "FULL SCREEN INTENT: GRANTED", "GRANT FULL SCREEN INTENT")
         } else {
             statusFsi.text = "[ OK ]"
-            statusFsi.setTextColor(getColor(android.R.color.holo_green_light))
+            statusFsi.setTextColor(theme.success)
             btnFsi.text = "FULL SCREEN INTENT: AUTO-GRANTED"
         }
 
@@ -132,21 +139,21 @@ class SetupActivity : Activity() {
         val pinStatusView = findViewById<TextView>(R.id.statusPin)
         if (hasPin) {
             pinStatusView.text = "[ OK ]  PIN SET"
-            pinStatusView.setTextColor(getColor(android.R.color.holo_green_light))
+            pinStatusView.setTextColor(theme.success)
         } else {
             pinStatusView.text = "[ -- ] NO PIN (swipe unlocks directly)"
-            pinStatusView.setTextColor(getColor(android.R.color.darker_gray))
+            pinStatusView.setTextColor(theme.textHint)
         }
     }
 
     private fun updateRow(statusView: TextView, btn: Button, granted: Boolean, grantedLabel: String, pendingLabel: String) {
         if (granted) {
             statusView.text = "[ OK ]"
-            statusView.setTextColor(getColor(android.R.color.holo_green_light))
+            statusView.setTextColor(theme.success)
             btn.text = grantedLabel
         } else {
             statusView.text = "[ ! ]"
-            statusView.setTextColor(getColor(android.R.color.holo_red_light))
+            statusView.setTextColor(theme.error)
             btn.text = pendingLabel
         }
     }

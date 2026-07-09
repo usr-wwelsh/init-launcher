@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/app_item_background"
+    android:tag="bg=appItem"
     android:paddingHorizontal="10dp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:textColor="@color/border_color"
+        android:tag="text=borderColor"
         android:textSize="9sp"
         android:letterSpacing="0.2" />
 
@@ -25,6 +27,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:textColor="@color/text_primary"
+        android:tag="text=textPrimary"
         android:textSize="13sp"
         android:maxLines="1"
         android:ellipsize="end" />
@@ -35,6 +38,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:textColor="@color/text_hint"
+        android:tag="text=textHint"
         android:textSize="11sp"
         android:maxLines="2"
         android:ellipsize="end"

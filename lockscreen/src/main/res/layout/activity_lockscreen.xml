@@ -4,7 +4,8 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:tag="bg=plain:background">
 
     <!-- ═══ MAIN LOCKSCREEN (clock + notifications) ═══ -->
     <LinearLayout
@@ -32,6 +33,7 @@
                     android:text="INIT LOCKSCREEN"
                     android:fontFamily="monospace"
                     android:textColor="@color/border_color"
+                    android:tag="text=borderColor"
                     android:textSize="11sp"
                     android:letterSpacing="0.2"
                     android:paddingBottom="12dp" />
@@ -42,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@drawable/border_box"
+                    android:tag="bg=borderBox"
                     android:paddingHorizontal="20dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="16dp"
@@ -54,6 +57,7 @@
                         android:layout_height="96dp"
                         android:fontFamily="monospace"
                         android:textColor="@color/text_label"
+                        android:tag="text=textLabel"
                         android:autoSizeTextType="uniform"
                         android:autoSizeMinTextSize="5sp"
                         android:autoSizeMaxTextSize="18sp"
@@ -70,6 +74,7 @@
                         android:text="AM"
                         android:fontFamily="monospace"
                         android:textColor="@color/text_label"
+                        android:tag="text=textLabel"
                         android:textSize="14sp"
                         android:layout_marginTop="4dp" />
 
@@ -80,6 +85,7 @@
                         android:text="MONDAY  JAN 01"
                         android:fontFamily="monospace"
                         android:textColor="@color/text_label"
+                        android:tag="text=textLabel"
                         android:textSize="14sp"
                         android:letterSpacing="0.08"
                         android:layout_marginTop="4dp" />
@@ -92,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@drawable/border_box"
+                    android:tag="bg=borderBox"
                     android:padding="12dp">
 
                     <TextView
@@ -100,6 +107,7 @@
                         android:text="NOTIFICATIONS"
                         android:fontFamily="monospace"
                         android:textColor="@color/text_label"
+                        android:tag="text=textLabel"
                         android:textSize="10sp"
                         android:letterSpacing="0.2"
                         android:paddingBottom="6dp" />
@@ -108,6 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/bevel_shadow"
+                        android:tag="bg=plain:bevelShadow"
                         android:layout_marginBottom="6dp" />
 
                     <LinearLayout
@@ -123,6 +132,7 @@
                         android:text="no notifications"
                         android:fontFamily="monospace"
                         android:textColor="@color/text_hint"
+                        android:tag="text=textHint"
                         android:textSize="12sp"
                         android:gravity="center"
                         android:paddingTop="8dp"
@@ -142,6 +152,7 @@
             android:text="[ SWIPE UP TO UNLOCK ]"
             android:fontFamily="monospace"
             android:textColor="@color/text_label"
+            android:tag="text=textLabel;bg=borderBox"
             android:textSize="13sp"
             android:gravity="center"
             android:letterSpacing="0.15"
@@ -157,6 +168,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/background"
+        android:tag="bg=plain:background"
         android:padding="24dp"
         android:gravity="center"
         android:visibility="gone">
@@ -167,6 +179,7 @@
             android:text="INIT LOCKSCREEN"
             android:fontFamily="monospace"
             android:textColor="@color/border_color"
+            android:tag="text=borderColor"
             android:textSize="11sp"
             android:letterSpacing="0.2"
             android:paddingBottom="24dp" />
@@ -178,6 +191,7 @@
             android:text="enter pin"
             android:fontFamily="monospace"
             android:textColor="@color/text_label"
+            android:tag="text=textLabel"
             android:textSize="13sp"
             android:paddingBottom="16dp" />
 
@@ -242,6 +256,7 @@
             android:text="[ BACK ]"
             android:fontFamily="monospace"
             android:textColor="@color/text_hint"
+            android:tag="text=textHint"
             android:textSize="12sp"
             android:gravity="center"
             android:padding="16dp"

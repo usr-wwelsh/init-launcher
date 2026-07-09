@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/themeRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/border_box"
+    android:tag="bg=borderBox"
+    android:padding="10dp"
+    android:layout_marginBottom="6dp"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/themeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:tag="text=textPrimary"
+        android:textSize="14sp"
+        android:fontFamily="monospace" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <View android:id="@+id/swatch0" android:layout_width="16dp" android:layout_height="16dp" android:layout_marginEnd="3dp" />
+        <View android:id="@+id/swatch1" android:layout_width="16dp" android:layout_height="16dp" android:layout_marginEnd="3dp" />
+        <View android:id="@+id/swatch2" android:layout_width="16dp" android:layout_height="16dp" android:layout_marginEnd="3dp" />
+        <View android:id="@+id/swatch3" android:layout_width="16dp" android:layout_height="16dp" android:layout_marginEnd="3dp" />
+        <View android:id="@+id/swatch4" android:layout_width="16dp" android:layout_height="16dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/selectedMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✓"
+        android:textColor="@color/neon_green"
+        android:tag="text=accentPrimary"
+        android:textSize="16sp"
+        android:fontFamily="monospace"
+        android:paddingStart="10dp" />
+</LinearLayout>

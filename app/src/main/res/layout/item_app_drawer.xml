@@ -9,6 +9,7 @@
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
     android:background="@drawable/app_item_background"
+    android:tag="bg=appItem"
     android:layout_margin="3dp"
     android:gravity="center_vertical"
     android:clickable="true"
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/neon_green"
+        android:tag="text=accentPrimary"
         android:textSize="14sp"
         android:fontFamily="monospace"
         android:gravity="start|center_vertical" />

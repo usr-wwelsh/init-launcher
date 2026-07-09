@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
+    android:tag="bg=plain:background"
     android:padding="16dp">
 
     <!-- Header -->
@@ -14,6 +15,7 @@
         android:text="INIT LOCKSCREEN"
         android:fontFamily="monospace"
         android:textColor="@color/border_color"
+        android:tag="text=borderColor"
         android:textSize="20sp"
         android:letterSpacing="0.15"
         android:paddingBottom="4dp" />
@@ -24,6 +26,7 @@
         android:text="setup"
         android:fontFamily="monospace"
         android:textColor="@color/text_label"
+        android:tag="text=textLabel"
         android:textSize="13sp"
         android:paddingBottom="24dp" />
 
@@ -33,6 +36,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/border_box"
+        android:tag="bg=borderBox"
         android:padding="14dp"
         android:layout_marginBottom="12dp">
 
@@ -42,6 +46,7 @@
             android:text="PERMISSIONS"
             android:fontFamily="monospace"
             android:textColor="@color/text_label"
+            android:tag="text=textLabel"
             android:textSize="10sp"
             android:letterSpacing="0.2"
             android:paddingBottom="10dp" />
@@ -61,6 +66,7 @@
                 android:text="notification access"
                 android:fontFamily="monospace"
                 android:textColor="@color/text_primary"
+                android:tag="text=textPrimary"
                 android:textSize="12sp" />
 
             <TextView
@@ -82,6 +88,7 @@
             android:textSize="12sp"
             android:background="@drawable/border_box"
             android:textColor="@color/text_primary"
+            android:tag="text=textPrimary;bg=borderBox"
             android:layout_marginBottom="8dp" />
 
         <!-- Overlay permission row -->
@@ -99,6 +106,7 @@
                 android:text="display over other apps"
                 android:fontFamily="monospace"
                 android:textColor="@color/text_primary"
+                android:tag="text=textPrimary"
                 android:textSize="12sp" />
 
             <TextView
@@ -120,6 +128,7 @@
             android:textSize="12sp"
             android:background="@drawable/border_box"
             android:textColor="@color/text_primary"
+            android:tag="text=textPrimary;bg=borderBox"
             android:layout_marginBottom="8dp" />
 
         <!-- Full-screen intent (required on Android 14+) -->
@@ -137,6 +146,7 @@
                 android:text="full screen intent"
                 android:fontFamily="monospace"
                 android:textColor="@color/text_primary"
+                android:tag="text=textPrimary"
                 android:textSize="12sp" />
 
             <TextView
@@ -157,7 +167,8 @@
             android:fontFamily="monospace"
             android:textSize="12sp"
             android:background="@drawable/border_box"
-            android:textColor="@color/text_primary" />
+            android:textColor="@color/text_primary"
+            android:tag="text=textPrimary;bg=borderBox" />
 
     </LinearLayout>
 
@@ -167,6 +178,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/border_box"
+        android:tag="bg=borderBox"
         android:padding="14dp"
         android:layout_marginBottom="12dp">
 
@@ -176,6 +188,7 @@
             android:text="PIN LOCK"
             android:fontFamily="monospace"
             android:textColor="@color/text_label"
+            android:tag="text=textLabel"
             android:textSize="10sp"
             android:letterSpacing="0.2"
             android:paddingBottom="10dp" />
@@ -204,6 +217,7 @@
                 android:textSize="12sp"
                 android:background="@drawable/border_box"
                 android:textColor="@color/text_primary"
+                android:tag="text=textPrimary;bg=borderBox"
                 android:layout_marginEnd="8dp" />
 
             <Button
@@ -215,7 +229,8 @@
                 android:fontFamily="monospace"
                 android:textSize="12sp"
                 android:background="@drawable/border_box"
-                android:textColor="@color/text_primary" />
+                android:textColor="@color/text_primary"
+                android:tag="text=textPrimary;bg=borderBox" />
 
         </LinearLayout>
 
@@ -227,6 +242,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/border_box"
+        android:tag="bg=borderBox"
         android:padding="14dp"
         android:layout_marginBottom="12dp">
 
@@ -236,6 +252,7 @@
             android:text="SERVICE"
             android:fontFamily="monospace"
             android:textColor="@color/text_label"
+            android:tag="text=textLabel"
             android:textSize="10sp"
             android:letterSpacing="0.2"
             android:paddingBottom="10dp" />
@@ -248,7 +265,8 @@
             android:fontFamily="monospace"
             android:textSize="12sp"
             android:background="@drawable/border_box"
-            android:textColor="@color/text_primary" />
+            android:textColor="@color/text_primary"
+            android:tag="text=textPrimary;bg=borderBox" />
 
     </LinearLayout>
 
@@ -258,6 +276,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/border_box"
+        android:tag="bg=borderBox"
         android:padding="14dp">
 
         <TextView
@@ -266,6 +285,7 @@
             android:text="HOW IT WORKS"
             android:fontFamily="monospace"
             android:textColor="@color/text_label"
+            android:tag="text=textLabel"
             android:textSize="10sp"
             android:letterSpacing="0.2"
             android:paddingBottom="8dp" />
@@ -276,6 +296,7 @@
             android:text="1. grant notification access above\n2. start the service\n3. lock your screen to test\n\nswipe up or tap [ TAP TO UNLOCK ]\nto dismiss back to system lock"
             android:fontFamily="monospace"
             android:textColor="@color/text_hint"
+            android:tag="text=textHint"
             android:textSize="11sp"
             android:lineSpacingMultiplier="1.4" />
 

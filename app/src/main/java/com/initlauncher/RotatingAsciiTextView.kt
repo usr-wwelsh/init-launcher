@@ -9,6 +9,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.initlauncher.theme.Theme
 import kotlin.random.Random
 
 class RotatingAsciiTextView @JvmOverloads constructor(
@@ -20,9 +21,15 @@ class RotatingAsciiTextView @JvmOverloads constructor(
     private val handler = Handler(Looper.getMainLooper())
     private val frameDuration = 150L // milliseconds per color update
 
-    private val colorGreen by lazy { ContextCompat.getColor(context, R.color.accent_primary) }
-    private val colorWhite by lazy { ContextCompat.getColor(context, R.color.text_primary) }
-    private val colorRed   by lazy { ContextCompat.getColor(context, R.color.border_color) }
+    private var colorGreen = ContextCompat.getColor(context, R.color.accent_primary)
+    private var colorWhite = ContextCompat.getColor(context, R.color.text_primary)
+    private var colorRed   = ContextCompat.getColor(context, R.color.border_color)
+
+    fun updateTheme(theme: Theme) {
+        colorGreen = theme.accentPrimary
+        colorWhite = theme.textPrimary
+        colorRed = theme.borderColor
+    }
 
     // Static ASCII art with animated colors
     private val asciiArt = """⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀

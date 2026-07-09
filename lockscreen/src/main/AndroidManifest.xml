@@ -20,6 +20,9 @@
     <!-- Draw overlay window above the lockscreen (the core mechanism) -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <!-- Signature-level permission to read the launcher's active theme -->
+    <uses-permission android:name="com.initlauncher.permission.READ_THEME" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

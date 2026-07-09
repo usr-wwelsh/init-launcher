@@ -14,6 +14,7 @@
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:fontFamily">monospace</item>
         <item name="android:textColor">@color/text_primary</item>
+        <item name="android:tag">text=textPrimary;bg=borderBox</item>
         <item name="android:textSize">22sp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/border_box</item>

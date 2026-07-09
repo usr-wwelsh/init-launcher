@@ -27,6 +27,8 @@ import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
+import com.initlauncher.theme.Theme
+import com.initlauncher.theme.ThemeApplier
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -103,6 +105,8 @@ class LockscreenService : Service() {
         }
 
         val view = LayoutInflater.from(this).inflate(R.layout.activity_lockscreen, null)
+        val theme = ThemeClient.resolveTheme(this)
+        ThemeApplier.apply(view, theme)
 
         val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -168,20 +172,18 @@ class LockscreenService : Service() {
         // ── PIN helpers ──
         fun updateDots() {
             pinDots.forEachIndexed { i, dot ->
-                dot.setBackgroundResource(
-                    if (i < currentPin.length) R.drawable.pin_dot_filled else R.drawable.pin_dot_empty
-                )
+                dot.background = ThemeApplier.pinDotDrawable(theme, i < currentPin.length, dot.context)
             }
         }
 
         fun showPinWrong() {
             pinPrompt.text = "incorrect pin"
-            pinPrompt.setTextColor(0xFFC05870.toInt())
+            pinPrompt.setTextColor(theme.error)
             currentPin = ""
             updateDots()
             clockHandler.postDelayed({
                 pinPrompt.text = "enter pin"
-                pinPrompt.setTextColor(0xFF1A2A38.toInt())
+                pinPrompt.setTextColor(theme.textLabel)
             }, 800)
         }
 
@@ -203,7 +205,7 @@ class LockscreenService : Service() {
             currentPin = ""
             updateDots()
             pinPrompt.text = "enter pin"
-            pinPrompt.setTextColor(0xFF1A2A38.toInt())
+            pinPrompt.setTextColor(theme.textLabel)
             mainContent.visibility = View.GONE
             pinPanel.visibility = View.VISIBLE
         }

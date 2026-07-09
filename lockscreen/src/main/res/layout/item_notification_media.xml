@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/app_item_background"
+    android:tag="bg=appItem"
     android:padding="10dp"
     android:layout_marginBottom="4dp">
 
@@ -15,6 +16,7 @@
         android:layout_height="56dp"
         android:scaleType="centerCrop"
         android:background="@color/surface_dark"
+        android:tag="bg=plain:surfaceDark"
         android:layout_marginEnd="10dp" />
 
     <!-- Track info + controls -->
@@ -31,6 +33,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
             android:textColor="@color/border_color"
+            android:tag="text=borderColor"
             android:textSize="9sp"
             android:letterSpacing="0.2" />
 
@@ -40,6 +43,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
             android:textColor="@color/text_primary"
+            android:tag="text=textPrimary"
             android:textSize="13sp"
             android:maxLines="1"
             android:ellipsize="end" />
@@ -50,6 +54,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
             android:textColor="@color/text_hint"
+            android:tag="text=textHint"
             android:textSize="11sp"
             android:maxLines="1"
             android:ellipsize="end"
@@ -68,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:textColor="@color/text_label"
+                android:tag="text=textLabel;bg=borderBox"
                 android:textSize="10sp"
                 android:background="@drawable/border_box"
                 android:paddingHorizontal="8dp"
@@ -83,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:textColor="@color/text_label"
+                android:tag="text=textLabel;bg=borderBox"
                 android:textSize="10sp"
                 android:background="@drawable/border_box"
                 android:paddingHorizontal="8dp"
@@ -98,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:textColor="@color/text_label"
+                android:tag="text=textLabel;bg=borderBox"
                 android:textSize="10sp"
                 android:background="@drawable/border_box"
                 android:paddingHorizontal="8dp"

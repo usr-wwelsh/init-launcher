@@ -20,6 +20,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.initlauncher.theme.ThemeApplier
+import com.initlauncher.theme.ThemeManager
 import kotlinx.coroutines.*
 
 class AppDrawerActivity : Activity() {
@@ -40,12 +42,14 @@ class AppDrawerActivity : Activity() {
 
     private lateinit var searchBox: EditText
     private lateinit var sortButton: TextView
+    private lateinit var themeButton: TextView
     private lateinit var appList: RecyclerView
     private val apps = mutableListOf<AppInfo>()
     private val allApps = mutableListOf<AppInfo>()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private lateinit var adapter: AppDrawerAdapter
     private var sortByRecent = true  // Default to Recent sorting
+    private val themeListener = { applyTheme() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,17 +58,40 @@ class AppDrawerActivity : Activity() {
 
         searchBox = findViewById(R.id.searchBox)
         sortButton = findViewById(R.id.sortButton)
+        themeButton = findViewById(R.id.themeButton)
         appList = findViewById(R.id.appList)
+        applyTheme()
         setupRecyclerView()
         setupSearch()
         setupSort()
         updateSortButtonText()
         loadApps()
+
+        themeButton.setOnClickListener {
+            startActivity(Intent(this, ThemeSettingsActivity::class.java))
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) enableImmersiveMode()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        applyTheme()
+        ThemeManager.addListener(themeListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ThemeManager.removeListener(themeListener)
+    }
+
+    private fun applyTheme() {
+        val theme = ThemeManager.getActiveTheme(this)
+        ThemeApplier.apply(findViewById(android.R.id.content), theme)
+        if (::adapter.isInitialized) adapter.notifyDataSetChanged()
     }
 
     private fun updateSortButtonText() {

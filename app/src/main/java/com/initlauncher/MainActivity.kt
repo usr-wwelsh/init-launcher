@@ -29,6 +29,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.initlauncher.theme.ThemeApplier
+import com.initlauncher.theme.ThemeManager
 import kotlin.math.abs
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -63,6 +65,7 @@ class MainActivity : Activity() {
     private val pinnedApps = mutableListOf<AppInfo>()
     private lateinit var adapter: AppGridAdapter
     private lateinit var gestureDetector: GestureDetector
+    private val themeListener = { applyTheme() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +75,7 @@ class MainActivity : Activity() {
         sharedPreferences = getSharedPreferences("init_launcher_prefs", Context.MODE_PRIVATE)
 
         initViews()
+        applyTheme()
         setupSystemInfo()
         setupPinnedApps()
         startMonitoring()
@@ -98,6 +102,25 @@ class MainActivity : Activity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) enableImmersiveMode()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        applyTheme()
+        ThemeManager.addListener(themeListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ThemeManager.removeListener(themeListener)
+    }
+
+    private fun applyTheme() {
+        val theme = ThemeManager.getActiveTheme(this)
+        ThemeApplier.apply(findViewById(android.R.id.content), theme)
+        asciiArt.updateTheme(theme)
+        networkGraph.updateTheme(theme)
+        if (::adapter.isInitialized) adapter.notifyDataSetChanged()
     }
 
     private fun setupGestureDetector() {

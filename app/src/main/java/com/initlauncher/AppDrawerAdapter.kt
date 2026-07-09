@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.initlauncher.theme.ThemeApplier
+import com.initlauncher.theme.ThemeManager
 
 class AppDrawerAdapter(
     private val apps: List<AppInfo>,
@@ -29,6 +31,7 @@ class AppDrawerAdapter(
         val app = apps[position]
         holder.appName.text = app.name
         holder.appIcon.setImageDrawable(app.icon)
+        ThemeApplier.apply(holder.itemView, ThemeManager.getActiveTheme(holder.itemView.context))
 
         holder.itemView.setOnClickListener {
             onClick(position)

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.initlauncher.theme.ThemeApplier
+import com.initlauncher.theme.ThemeManager
 import java.util.Collections
 
 class AppGridAdapter(
@@ -36,6 +38,7 @@ class AppGridAdapter(
     override fun onBindViewHolder(holder: AppViewHolder, position: Int) {
         val app = apps[position]
         holder.appName.text = app.name
+        ThemeApplier.apply(holder.itemView, ThemeManager.getActiveTheme(holder.itemView.context))
 
         // Double-tap to replace app, single tap to launch
         holder.appName.setOnClickListener {

@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:minHeight="40dp"
     android:textColor="@color/neon_green"
+    android:tag="text=accentPrimary;bg=appItem"
     android:textSize="11sp"
     android:fontFamily="monospace"
     android:paddingTop="8dp"

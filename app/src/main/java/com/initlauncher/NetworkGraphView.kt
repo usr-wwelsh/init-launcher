@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.initlauncher.theme.Theme
 
 class NetworkGraphView @JvmOverloads constructor(
     context: Context,
@@ -32,6 +33,13 @@ class NetworkGraphView @JvmOverloads constructor(
         strokeWidth = 1f
         style = Paint.Style.STROKE
         isAntiAlias = true
+    }
+
+    fun updateTheme(theme: Theme) {
+        uploadPaint.color = theme.netUpload
+        downloadPaint.color = theme.netDownload
+        gridPaint.color = theme.netGrid
+        invalidate()
     }
 
     private val uploadHistory = mutableListOf<Float>()
