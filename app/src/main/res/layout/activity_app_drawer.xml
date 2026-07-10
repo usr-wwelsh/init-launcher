@@ -22,7 +22,7 @@
             android:tag="text=textLabel;bg=borderBox"
             android:textSize="14sp"
             android:fontFamily="monospace"
-            android:gravity="center"
+            android:gravity="center_vertical|start"
             android:padding="8dp"
             android:background="@drawable/border_box"
             android:layout_marginEnd="4dp" />
@@ -31,7 +31,7 @@
             android:id="@+id/themeButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="🎨"
+            android:text="THEME"
             android:textColor="@color/neon_green"
             android:tag="text=accentPrimary;bg=borderBox"
             android:textSize="14sp"

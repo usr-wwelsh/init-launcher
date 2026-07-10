@@ -15,7 +15,7 @@
         android:tag="text=textLabel;bg=borderBox"
         android:textSize="14sp"
         android:fontFamily="monospace"
-        android:gravity="center"
+        android:gravity="center_vertical|start"
         android:padding="8dp"
         android:background="@drawable/border_box"
         android:layout_marginBottom="8dp" />
