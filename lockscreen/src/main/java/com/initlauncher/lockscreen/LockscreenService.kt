@@ -16,6 +16,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.view.GestureDetector
@@ -138,6 +139,8 @@ class LockscreenService : Service() {
         val pinPrompt    = view.findViewById<TextView>(R.id.pinPrompt)
         val swipeHint    = view.findViewById<TextView>(R.id.swipeHint)
         val pinBack      = view.findViewById<View>(R.id.pinBack)
+        val phoneShortcut  = view.findViewById<View>(R.id.phoneShortcut)
+        val cameraShortcut = view.findViewById<View>(R.id.cameraShortcut)
 
         val pinDots = listOf(
             view.findViewById<View>(R.id.pinDot0),
@@ -233,6 +236,24 @@ class LockscreenService : Service() {
             }
         }
         pinBack.setOnClickListener { showMain() }
+
+        // ── Quick-launch shortcuts ──
+        phoneShortcut.setOnClickListener {
+            hideOverlay()
+            try {
+                startActivity(Intent(Intent.ACTION_DIAL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            } catch (e: Exception) {
+                Log.w(TAG, "phone shortcut failed: ${e.message}")
+            }
+        }
+        cameraShortcut.setOnClickListener {
+            hideOverlay()
+            try {
+                startActivity(Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            } catch (e: Exception) {
+                Log.w(TAG, "camera shortcut failed: ${e.message}")
+            }
+        }
 
         // ── Swipe up on the bottom bar (or tap it) to unlock ──
         // Gesture goes on swipeHint specifically — the ScrollView above would

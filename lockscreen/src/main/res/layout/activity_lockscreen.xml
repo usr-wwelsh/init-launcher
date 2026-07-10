@@ -144,6 +144,51 @@
             </LinearLayout>
         </ScrollView>
 
+        <!-- Quick-launch shortcuts (fixed above the swipe hint) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/phoneShortcut"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="[ PHONE ]"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_label"
+                android:tag="text=textLabel;bg=borderBox"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:padding="14dp"
+                android:background="@drawable/border_box"
+                android:layout_marginEnd="4dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/cameraShortcut"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="[ CAMERA ]"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_label"
+                android:tag="text=textLabel;bg=borderBox"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:padding="14dp"
+                android:background="@drawable/border_box"
+                android:layout_marginStart="4dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
         <!-- Swipe hint (fixed at bottom) -->
         <TextView
             android:id="@+id/swipeHint"
