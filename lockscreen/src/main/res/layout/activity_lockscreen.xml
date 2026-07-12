@@ -27,16 +27,35 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="INIT LOCKSCREEN"
-                    android:fontFamily="monospace"
-                    android:textColor="@color/border_color"
-                    android:tag="text=borderColor"
-                    android:textSize="11sp"
-                    android:letterSpacing="0.2"
-                    android:paddingBottom="12dp" />
+                    android:orientation="horizontal"
+                    android:paddingBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="INIT LOCKSCREEN"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/border_color"
+                        android:tag="text=borderColor"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2" />
+
+                    <TextView
+                        android:id="@+id/batteryView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/border_color"
+                        android:tag="text=borderColor"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.1" />
+
+                </LinearLayout>
 
                 <!-- Clock panel -->
                 <LinearLayout

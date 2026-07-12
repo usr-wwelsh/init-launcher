@@ -12,6 +12,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.graphics.PixelFormat
+import android.os.BatteryManager
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
@@ -46,6 +47,8 @@ class LockscreenService : Service() {
 
     // PIN state
     private var currentPin = ""
+
+    private var batteryReceiver: BroadcastReceiver? = null
 
     private val screenReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -132,6 +135,7 @@ class LockscreenService : Service() {
         val clockView    = view.findViewById<TextView>(R.id.clockView)
         val amPmView     = view.findViewById<TextView>(R.id.amPmView)
         val dateView     = view.findViewById<TextView>(R.id.dateView)
+        val batteryView  = view.findViewById<TextView>(R.id.batteryView)
         val notifContainer = view.findViewById<LinearLayout>(R.id.notifContainer)
         val emptyNotifView = view.findViewById<TextView>(R.id.emptyNotifView)
         val mainContent  = view.findViewById<View>(R.id.mainContent)
@@ -165,6 +169,29 @@ class LockscreenService : Service() {
             }
         }
         clockHandler.post(clockTick!!)
+
+        // ── Battery ──
+        fun updateBattery(intent: Intent?) {
+            val level = intent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
+            val scale = intent?.getIntExtra(BatteryManager.EXTRA_SCALE, -1) ?: -1
+            if (level < 0 || scale <= 0) return
+            val pct = level * 100 / scale
+            val status = intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+            val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                status == BatteryManager.BATTERY_STATUS_FULL
+            batteryView.text = if (isCharging) "$pct% [+]" else "$pct%"
+        }
+        val batteryFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        updateBattery(registerReceiver(null, batteryFilter))
+        batteryReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) = updateBattery(intent)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(batteryReceiver, batteryFilter, RECEIVER_NOT_EXPORTED)
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            registerReceiver(batteryReceiver, batteryFilter)
+        }
 
         // ── Notifications ──
         refreshNotifications(notifContainer, emptyNotifView)
@@ -306,6 +333,10 @@ class LockscreenService : Service() {
         clockTick = null
         notifHandler.removeCallbacksAndMessages(null)
         NotificationListener.onChanged = null
+        batteryReceiver?.let {
+            try { unregisterReceiver(it) } catch (e: Exception) { Log.w(TAG, e.message ?: "unregisterReceiver failed") }
+        }
+        batteryReceiver = null
         currentPin = ""
         overlayView?.let {
             try { windowManager.removeView(it) } catch (e: Exception) { Log.w(TAG, e.message ?: "removeView failed") }
