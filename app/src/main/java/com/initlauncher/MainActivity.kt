@@ -40,6 +40,7 @@ class MainActivity : Activity() {
 
     private lateinit var uptimeText: TextView
     private lateinit var currentTimeText: TextView
+    private lateinit var dayOfWeekText: TextView
     private lateinit var batteryText: TextView
     private lateinit var signalText: TextView
     private lateinit var wifiText: TextView
@@ -199,6 +200,7 @@ class MainActivity : Activity() {
     private fun initViews() {
         uptimeText = findViewById(R.id.uptimeText)
         currentTimeText = findViewById(R.id.currentTimeText)
+        dayOfWeekText = findViewById(R.id.dayOfWeekText)
         batteryText = findViewById(R.id.batteryText)
         signalText = findViewById(R.id.signalText)
         wifiText = findViewById(R.id.wifiText)
@@ -687,6 +689,9 @@ class MainActivity : Activity() {
         val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.getDefault())
         val currentTimeStr = timeFormat.format(Date())
         currentTimeText.text = currentTimeStr
+
+        val dayFormat = SimpleDateFormat("EEEE M/d", Locale.getDefault())
+        dayOfWeekText.text = dayFormat.format(Date())
 
         // Uptime
         val uptimeMillis = SystemClock.elapsedRealtime()
