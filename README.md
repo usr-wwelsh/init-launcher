@@ -1,5 +1,7 @@
 # Init Launcher
 
+[![Read about the commits](https://img.shields.io/badge/commits-code%20blog-1a1a1a?style=flat-square)](https://wwel.sh/digest.html?repo=init-launcher)
+
 A minimal, stripped-metal style Android launcher with system monitoring capabilities inspired by terminal aesthetics and neofetch.
 
 ## Features
