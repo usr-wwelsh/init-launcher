@@ -320,6 +320,10 @@ class LockscreenService : Service() {
                 }
             }
             view.post { hideSystemBars() }
+            view.setOnApplyWindowInsetsListener { v, insets ->
+                if (insets.isVisible(android.view.WindowInsets.Type.systemBars())) v.post { hideSystemBars() }
+                v.onApplyWindowInsets(insets)
+            }
             view.viewTreeObserver.addOnWindowFocusChangeListener { hasFocus ->
                 if (hasFocus) hideSystemBars()
             }
