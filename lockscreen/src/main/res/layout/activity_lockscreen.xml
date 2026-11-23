@@ -33,16 +33,10 @@
                     android:orientation="horizontal"
                     android:paddingBottom="12dp">
 
-                    <TextView
+                    <View
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="INIT LOCKSCREEN"
-                        android:fontFamily="monospace"
-                        android:textColor="@color/border_color"
-                        android:tag="text=borderColor"
-                        android:textSize="11sp"
-                        android:letterSpacing="0.2" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/batteryView"
@@ -236,17 +230,6 @@
         android:padding="24dp"
         android:gravity="center"
         android:visibility="gone">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="INIT LOCKSCREEN"
-            android:fontFamily="monospace"
-            android:textColor="@color/border_color"
-            android:tag="text=borderColor"
-            android:textSize="11sp"
-            android:letterSpacing="0.2"
-            android:paddingBottom="24dp" />
 
         <TextView
             android:id="@+id/pinPrompt"
