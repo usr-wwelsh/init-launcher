@@ -158,9 +158,7 @@ class LockscreenService : Service() {
         clockTick = object : Runnable {
             override fun run() {
                 val now = Date()
-                clockView.text = AsciiBigFont.render(
-                    SimpleDateFormat("hh:mm", Locale.getDefault()).format(now)
-                )
+                clockView.text = SimpleDateFormat("hh:mm", Locale.getDefault()).format(now)
                 amPmView.text = SimpleDateFormat("a", Locale.getDefault()).format(now)
                     .uppercase(Locale.getDefault())
                 dateView.text = SimpleDateFormat("EEEE  MMM dd", Locale.getDefault())
